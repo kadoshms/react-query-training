@@ -9,7 +9,7 @@ export function IntersectionObserver({
   onIntersect,
 }: IntersectionObserverProps) {
   const { ref, inView } = useInView({
-    threshold: 0,
+    threshold: 0.5,
     delay: 2000,
   });
 
@@ -19,5 +19,5 @@ export function IntersectionObserver({
     }
   }, [inView, onIntersect]);
 
-  return <div ref={ref} />
+  return <div ref={ref} style={{ height: 100, visibility: 'hidden' }} />
 }

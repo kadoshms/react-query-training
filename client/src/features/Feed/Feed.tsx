@@ -16,13 +16,15 @@ export function Feed() {
 
   return (
     <Center>
-      <Flex alignItems="center" flexDirection="column" width={900}>
-        {data?.pages.map((page, index) => (
-          <ArticleList key={index} articles={page.data} />
-        ))}
-        <Box m={10}>{(isFetchingNextPage || isLoading) && <Spinner />}</Box>
-      </Flex>
-      <IntersectionObserver onIntersect={handleIntersection} />
+        <Flex flexDirection="column">
+            <Flex alignItems="center" flexDirection="column" width={900}>
+                {data?.pages.map((page, index) => (
+                    <ArticleList key={index} articles={page.data} />
+                ))}
+                <Box m={10}>{(isFetchingNextPage || isLoading) && <Spinner />}</Box>
+            </Flex>
+            <IntersectionObserver onIntersect={handleIntersection} />
+        </Flex>
     </Center>
   );
 }
