@@ -69,12 +69,10 @@ export function useMutateLikeArticle(articleId: string) {
 
         return { previousFeed };
       },
-      onError: (err, newTodo, context) => {
+      onError: (err, _, context) => {
+          console.log(context)
         queryClient.setQueryData(queryKeys.feed, context!.previousFeed);
-      },
-      onSettled: (newTodo) => {
-        queryClient.invalidateQueries(queryKeys.feed);
-      },
+      }
     }
   );
 }

@@ -12,6 +12,10 @@ export function useSocket() {
     socket.off(eventName);
   }, []);
 
+  const cleanUp = useCallback(() => {
+    socket.offAny();
+  }, [])
+
   useEffect(() => {
     socket.on("connect", () => {
       setIsConnected(true);
@@ -30,6 +34,7 @@ export function useSocket() {
   return {
     isConnected,
     on,
-    off
+    off,
+    cleanUp
   };
 }

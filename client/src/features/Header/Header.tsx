@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Flex, Heading } from "@chakra-ui/react";
 import { Promotion } from "./Promotion";
 import { Weather } from "./Weather";
-import { Match } from "./Match";
+import { OnlineUsers } from "./OnlineUsers";
 
 export function Header() {
   const [isPromotionVisible, setIsPromotionVisible] = useState(true);
@@ -19,7 +19,7 @@ export function Header() {
           </Button>
         </Flex>
       )}
-      <Match />
+      <OnlineUsers />
       <Weather />
     </Flex>
   );
