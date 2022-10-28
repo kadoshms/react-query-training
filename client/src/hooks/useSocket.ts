@@ -21,13 +21,8 @@ export function useSocket() {
       setIsConnected(true);
     });
 
-    socket.on("disconnect", () => {
-      setIsConnected(false);
-    });
-
     return () => {
       socket.off("connect");
-      socket.off("disconnect");
     };
   }, []);
 

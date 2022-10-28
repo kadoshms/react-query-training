@@ -13,6 +13,7 @@ export function useFetchAndSubscribeToOnlineUsers() {
 
   useEffect(() => {
     on("online-users", () => {
+      console.log('invalidated')
       queryClient.invalidateQueries(queryKeys.usersOnline);
     });
 
