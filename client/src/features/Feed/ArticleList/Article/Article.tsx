@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { Box, IconButton, Flex, Heading, Text } from "@chakra-ui/react";
 import { Thumbnail } from "./Thumbnail";
-import { useMutateLikeArticle } from "../../hooks";
 import { Card } from "../../../../components";
 
 interface ArticleProps {
@@ -14,8 +13,7 @@ interface ArticleProps {
   likes: number;
 }
 
-export function Article({ title, image, id, brief, likes }: ArticleProps) {
-  const { mutate, isLoading: isMutating } = useMutateLikeArticle(id);
+export function Article({ title, image, brief, likes }: ArticleProps) {
   return (
     <Card>
       <Flex flexDirection="column">
@@ -35,8 +33,8 @@ export function Article({ title, image, id, brief, likes }: ArticleProps) {
         <IconButton
           aria-label="like"
           icon={<FontAwesomeIcon icon={faThumbsUp} />}
-          onClick={() => mutate()}
-          isLoading={isMutating}
+          onClick={() => console.log("Like!")}
+          isLoading={false}
         />
         <Text>{likes}</Text>
       </Flex>
