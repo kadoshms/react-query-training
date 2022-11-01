@@ -1,9 +1,12 @@
+export type ArticleCategory = 'news' | 'finance' | 'sports' | 'food' | 'fashion' | 'nightlife';
+
 export interface Article {
   title: string;
   image: string;
   brief: string;
   id: string;
   likes: number;
+  category: ArticleCategory;
 }
 
 export interface Promotion {

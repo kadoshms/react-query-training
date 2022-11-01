@@ -3,6 +3,7 @@ import { Button, Flex, Heading } from "@chakra-ui/react";
 import { Promotion } from "./Promotion";
 import { Weather } from "./Weather";
 import { OnlineUsers } from "./OnlineUsers";
+import { Filters } from "./Filters";
 
 export function Header() {
   const [isPromotionVisible, setIsPromotionVisible] = useState(true);
@@ -21,6 +22,7 @@ export function Header() {
       )}
       <OnlineUsers />
       <Weather />
+      <Filters />
     </Flex>
   );
 }

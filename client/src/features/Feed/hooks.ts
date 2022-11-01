@@ -6,9 +6,13 @@ import {
 } from "react-query";
 import { Article } from "@react-query-training/models";
 import { axiosInstance } from "../../api";
+import { Filters } from "../../providers";
 
 export const queryKeys = {
   feed: "feed",
+  withFilters(filters: Filters) {
+    return [queryKeys.feed, filters];
+  },
 };
 
 interface ArticlesResponse {
@@ -16,13 +20,13 @@ interface ArticlesResponse {
   data: Article[];
 }
 
-export function useFetchFeed() {
+export function useFetchFeed({ filters }: { filters: Filters }) {
   return useInfiniteQuery<ArticlesResponse>(
-    queryKeys.feed,
+    queryKeys.withFilters(filters),
     async ({ pageParam = 0 }) =>
       axiosInstance
         .get("articles", {
-          params: { page: pageParam },
+          params: { page: pageParam, ...filters },
         })
         .then((resp) => resp.data),
     {
@@ -70,9 +74,9 @@ export function useMutateLikeArticle(articleId: string) {
         return { previousFeed };
       },
       onError: (err, _, context) => {
-          console.log(context)
+        console.log(context);
         queryClient.setQueryData(queryKeys.feed, context!.previousFeed);
-      }
+      },
     }
   );
 }

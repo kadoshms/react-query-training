@@ -4,16 +4,19 @@ import "./App.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { MainLayout } from "./MainLayout";
+import { FiltersProvider } from "./providers";
 
 const queryClient = new QueryClient();
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ChakraProvider>
-        <MainLayout />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </ChakraProvider>
+      <FiltersProvider>
+        <ChakraProvider>
+          <MainLayout />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </ChakraProvider>
+      </FiltersProvider>
     </QueryClientProvider>
   );
 }
