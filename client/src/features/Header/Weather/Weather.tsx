@@ -8,9 +8,9 @@ export function Weather() {
   return (
     <Flex gap={5}>
       {citiesWeatherData.map(
-        ({ data, isFetching }) =>
+        ({ data }) =>
           data && (
-            <WeatherWidget key={data.name} isLoading={isFetching} {...data} />
+            <WeatherWidget key={data.name} isLoading={false} {...data} />
           )
       )}
     </Flex>
