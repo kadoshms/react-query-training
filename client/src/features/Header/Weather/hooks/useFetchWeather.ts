@@ -1,26 +1,35 @@
 import { WeatherData } from "@react-query-training/models";
-import { useQueries } from "react-query";
+import { useQueries, useQuery } from "react-query";
 import { axiosInstance } from "../../../../api";
 import { FIVE_MINUTES } from "../../../../consts";
 
 const queryKeys = {
-  base: "weather",
+  weather: "weather",
+  cities: ["weather", "cities"],
   byCity(city: string) {
-    return [this.base, city];
+    return [queryKeys.weather, city];
   },
 };
 
-const CITIES_TO_FETCH = ["NYC", "TLV", "LND"];
-
-const queries = CITIES_TO_FETCH.map((code) => ({
-  queryKey: queryKeys.byCity(code),
-  staleTime: FIVE_MINUTES,
-  queryFn: async () => {
-    const response = await axiosInstance.get<WeatherData>(`/weather/${code}`);
+function useFetchWeatherCities() {
+  return useQuery<string[]>(queryKeys.cities, async () => {
+    const response = await axiosInstance.get(`weather/cities`);
     return response.data;
-  },
-}));
+  }, );
+}
 
 export function useFetchWeather() {
+  const { data: cities = [] } = useFetchWeatherCities();
+
+  const queries = cities.map((code) => ({
+    queryKey: queryKeys.byCity(code),
+    staleTime: FIVE_MINUTES,
+    enabled: Boolean(cities),
+    queryFn: async () => {
+      const response = await axiosInstance.get<WeatherData>(`weather/${code}`);
+      return response.data;
+    },
+  }));
+
   return useQueries(queries);
 }
