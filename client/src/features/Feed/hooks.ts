@@ -4,6 +4,7 @@ import {
   useMutation,
   useQueryClient,
 } from "react-query";
+import { useToast } from "@chakra-ui/react";
 import { Article } from "@react-query-training/models";
 import { axiosInstance } from "../../api";
 
@@ -36,6 +37,8 @@ export function useFetchFeed() {
 
 export function useMutateLikeArticle(articleId: string) {
   const queryClient = useQueryClient();
+  const toast = useToast();
+
   return useMutation(
     () =>
       axiosInstance.put(`articles/like/${articleId}`).then((resp) => resp.data),
@@ -70,9 +73,12 @@ export function useMutateLikeArticle(articleId: string) {
         return { previousFeed };
       },
       onError: (err, _, context) => {
-          console.log(context)
+        toast({
+          title: "Like operation failed!",
+          status: "error",
+        });
         queryClient.setQueryData(queryKeys.feed, context!.previousFeed);
-      }
+      },
     }
   );
 }
