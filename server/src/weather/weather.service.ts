@@ -13,4 +13,9 @@ export class WeatherService {
     }
     return weatherData;
   }
+
+  public getCities() {
+    const data = getData();
+    return Object.keys(data);
+  }
 }
