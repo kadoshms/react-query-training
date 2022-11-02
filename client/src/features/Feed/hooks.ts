@@ -7,9 +7,13 @@ import {
 import { useToast } from "@chakra-ui/react";
 import { Article } from "@react-query-training/models";
 import { axiosInstance } from "../../api";
+import { Filters, useFilters } from "../../providers";
 
 export const queryKeys = {
   feed: "feed",
+  withFilters(filters: Filters) {
+    return [queryKeys.feed, filters];
+  },
 };
 
 interface ArticlesResponse {
@@ -18,8 +22,9 @@ interface ArticlesResponse {
 }
 
 export function useFetchFeed() {
+  const { filters } = useFilters();
   return useInfiniteQuery<ArticlesResponse>(
-    queryKeys.feed,
+    queryKeys.withFilters(filters),
     async ({ pageParam = 0 }) =>
       axiosInstance
         .get("articles", {
