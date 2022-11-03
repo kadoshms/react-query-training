@@ -28,7 +28,7 @@ export function useFetchFeed() {
     async ({ pageParam = 0 }) =>
       axiosInstance
         .get("articles", {
-          params: { page: pageParam },
+          params: { page: pageParam, ...filters },
         })
         .then((resp) => resp.data),
     {
