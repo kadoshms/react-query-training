@@ -12,8 +12,11 @@ import { ArticlesService } from './articles.service';
 export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
   @Get()
-  findAll(@Query('page', ParseIntPipe) page: number) {
-    return this.articlesService.findAll({ page });
+  getArticles(
+    @Query('page', ParseIntPipe) page: number,
+    @Query('categories') categories: string[] = [],
+  ) {
+    return this.articlesService.getArticles({ page, categories });
   }
 
   @Put('like/:id')
