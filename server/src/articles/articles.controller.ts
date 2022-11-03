@@ -7,17 +7,16 @@ import {
   Query,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
-import { ArticleCategory } from '@react-query-training/models';
 
 @Controller('articles')
 export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
   @Get()
-  findAll(
+  getArticles(
     @Query('page', ParseIntPipe) page: number,
-    @Query('categories') categories: ArticleCategory[] = [],
+    @Query('categories') categories: string[] = [],
   ) {
-    return this.articlesService.find({ page, categories });
+    return this.articlesService.getArticles({ page, categories });
   }
 
   @Put('like/:id')

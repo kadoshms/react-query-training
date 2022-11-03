@@ -1,31 +1,27 @@
 import { faker } from '@faker-js/faker';
-import { ArticleCategory } from '@react-query-training/models';
 import { v4 as uuidv4 } from 'uuid';
 
 export const data = [];
 
 const IMAGE_SIZE = 150;
 
-const CATEGORY_IMAGE_FACTORY = {
+const CATEGORY_IMAGE_FACTORIES = {
+  news: faker.image.people,
+  sports: faker.image.sports,
   business: faker.image.business,
   fashion: faker.image.fashion,
-  food: faker.image.food,
-  sports: faker.image.sports,
-  news: faker.image.people,
   nightlife: faker.image.nightlife,
+  food: faker.image.food,
 };
 
-function createFakeImage(category: ArticleCategory) {
-  const factory = CATEGORY_IMAGE_FACTORY[category];
-
+function createFakeImage(category: string) {
+  const factory = CATEGORY_IMAGE_FACTORIES[category];
   return factory.apply(null, [IMAGE_SIZE, IMAGE_SIZE, true]);
 }
 
 function createFakeCategory() {
-  const categories = Object.keys(CATEGORY_IMAGE_FACTORY);
-  return categories[
-    Math.floor(Math.random() * categories.length)
-  ] as ArticleCategory;
+  const categories = Object.keys(CATEGORY_IMAGE_FACTORIES);
+  return categories[Math.floor(Math.random() * categories.length)];
 }
 
 function createFakeArticle() {
@@ -43,6 +39,6 @@ function createFakeArticle() {
   };
 }
 
-for (let i = 0; i < 4000; i++) {
+for (let i = 0; i < 10000; i++) {
   data.push(createFakeArticle());
 }

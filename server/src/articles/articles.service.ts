@@ -1,42 +1,30 @@
 import { Injectable } from '@nestjs/common';
+import { Article } from '@react-query-training/models';
 import { data } from './data';
 import { timeout } from '../utils';
-import { ArticleCategory, Article } from '@react-query-training/models';
 
 const PAGE_SIZE = 10;
 
 @Injectable()
 export class ArticlesService {
-  async find({
+  async getArticles({
     page,
     categories,
   }: {
     page: number;
-    categories: ArticleCategory[];
+    categories: string[];
   }) {
     const cursor = page * PAGE_SIZE;
     await timeout();
-    const slicedData = data.slice(cursor, cursor + PAGE_SIZE);
-    const filteredData = this.filterArticles({
-      articles: slicedData,
+    const paginatedData = data.slice(cursor, cursor + PAGE_SIZE);
+    const filteredData = this.filterArticlesByCategories({
+      articles: paginatedData,
       categories,
     });
     return {
       data: filteredData,
       nextPage: cursor + PAGE_SIZE >= data.length ? undefined : page + 1,
     };
-  }
-
-  private filterArticles({
-    articles,
-    categories,
-  }: {
-    articles: Article[];
-    categories: ArticleCategory[];
-  }) {
-    return articles.filter((article) =>
-      categories.length > 0 ? categories.includes(article.category) : true,
-    );
   }
 
   async like(id: string) {
@@ -54,5 +42,18 @@ export class ArticlesService {
     record.likes = record.likes + 1;
 
     return true;
+  }
+
+  private filterArticlesByCategories({
+    categories,
+    articles,
+  }: {
+    categories: string[];
+    articles: Article[];
+  }) {
+    if (categories.length === 0) {
+      return articles;
+    }
+    return articles.filter((article) => categories.includes(article.category));
   }
 }
