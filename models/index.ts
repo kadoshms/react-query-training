@@ -4,7 +4,6 @@ export interface Article {
   title: string;
   image: string;
   brief: string;
-  category: string;
   id: string;
   likes: number;
   category: ArticleCategory;
